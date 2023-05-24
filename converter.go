@@ -117,6 +117,10 @@ func ConvertRIS(filename string, filedata string) {
 
 	defer out.Close()
 
+	bib.title = strings.ReplaceAll(bib.title, " $$", " \\(")
+	bib.title = strings.ReplaceAll(bib.title, "$$ ", "\\) ")
+	bib.abstract = strings.ReplaceAll(bib.abstract, " $$", " \\(")
+	bib.abstract = strings.ReplaceAll(bib.abstract, "$$ ", "\\) ")
 	out.WriteString("@article{" + id + ",\n")
 	out.WriteString("author = " + "\"" + strings.Join(bib.authors, "  and  ") + "\"" + ",\n")
 	out.WriteString("title = " + "\"" + bib.title + "\"" + ",\n")

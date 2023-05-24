@@ -80,6 +80,7 @@ func create_bib_entry(content []string) *bib_entry {
 		l := strings.Split(content[i], sep)
 		if len(l) > 1 {
 			key, val := strings.TrimSpace(l[0]), strings.TrimSpace(l[1])
+            val = strings.ReplaceAll(val, "$$", "$")
 			bib.bib_map(key, val)
 		}
 	}
@@ -117,10 +118,6 @@ func ConvertRIS(filename string, filedata string) {
 
 	defer out.Close()
 
-	bib.title = strings.ReplaceAll(bib.title, " $$", " \\(")
-	bib.title = strings.ReplaceAll(bib.title, "$$ ", "\\) ")
-	bib.abstract = strings.ReplaceAll(bib.abstract, " $$", " \\(")
-	bib.abstract = strings.ReplaceAll(bib.abstract, "$$ ", "\\) ")
 	out.WriteString("@article{" + id + ",\n")
 	out.WriteString("author = " + "\"" + strings.Join(bib.authors, "  and  ") + "\"" + ",\n")
 	out.WriteString("title = " + "\"" + bib.title + "\"" + ",\n")

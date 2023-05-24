@@ -10,20 +10,23 @@ import (
 type unused_bib_key map[string]string
 
 type bib_entry struct {
-	bibtype string
-	id      string
-	authors []string
-	title   string
-	journal string
-	year    string
-	volume  string
-	issue   string
-	startpg string
-	endpg   string
-	month   string
-	url     string
-	doi     string
-	unused  []unused_bib_key
+	bibtype  string
+	id       string
+	authors  []string
+	title    string
+	journal  string
+	year     string
+	month    string
+	date     string
+	volume   string
+	issue    string
+	startpg  string
+	endpg    string
+	issn     string
+	url      string
+	doi      string
+	abstract string
+	unused   []unused_bib_key
 }
 
 func (bib *bib_entry) bib_map(key string, val string) {
@@ -46,12 +49,18 @@ func (bib *bib_entry) bib_map(key string, val string) {
 		bib.bibtype = val
 	} else if key == "PY" {
 		bib.year = val
+	} else if key == "DA" {
+		bib.date = val
+	} else if key == "SN" {
+		bib.issn = val
 	} else if key == "SP" {
 		bib.startpg = val
 	} else if key == "EP" {
 		bib.endpg = val
 	} else if key == "IS" {
 		bib.issue = val
+	} else if key == "AB" {
+		bib.abstract = val
 	} else {
 		bib.unused = append(bib.unused, unused_bib_key{"key": key, "val": val})
 	}
@@ -125,7 +134,9 @@ func ConvertRIS(filename string, filedata string) {
 	out.WriteString("volume  = " + "\"" + bib.volume + "\"" + ",\n")
 	out.WriteString("issue = " + "\"" + bib.issue + "\"" + ",\n")
 	out.WriteString("pages = " + "\"" + bib.startpg + "-" + bib.endpg + "\"" + ",\n")
+	out.WriteString("ISSN  = " + "\"" + bib.issn + "\"" + ",\n")
 	out.WriteString("doi  = " + "\"" + bib.doi + "\"" + ",\n")
-	out.WriteString("url  = " + "\"" + bib.url + "\"\n")
+	out.WriteString("url  = " + "\"" + bib.url + "\"" + ",\n")
+	out.WriteString("abstract  = " + "\"" + bib.abstract + "\"\n")
 	out.WriteString("}")
 }

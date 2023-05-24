@@ -98,7 +98,7 @@ func ConvertRIS(filename string, filedata string) {
 		log.Fatal(Ok)
 	}
 
-	id := strings.Split(bib.authors[0], ",")[0] + bib.year + bib.title[:5]
+	id := strings.Split(bib.authors[0], ",")[0] + bib.year
 
 	var bib_file string
 
